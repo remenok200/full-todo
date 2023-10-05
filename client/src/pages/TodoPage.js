@@ -1,11 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import TodoList from '../components/TodoList';
+import { getTasks } from '../api/taskApi';
+import { useNavigate } from 'react-router-dom';
 
-const TodoPage = () => {
+const TodoPage = (props) => {
     const [todos, setTodos] = useState([]);
+    const navigate = useNavigate()
 
     useEffect(() => {
-
+        if(!props.user) {
+            return navigate('/');
+        }
+        getTasks(props.user._id)
+        .then(result => {
+            setTodos(result.data);
+        })
+        .catch(error => {
+            console.error(error);
+        })
     }, []);
 
     return (

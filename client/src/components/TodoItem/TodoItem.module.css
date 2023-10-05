@@ -1,0 +1,11 @@
+.status-done {
+    color: green
+}
+
+.status-proccess{ 
+    color: blue
+}
+
+.sttaus-failed {
+    color: red
+}
