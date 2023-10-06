@@ -20,7 +20,9 @@ module.exports.createUserTask = async (req, res, next) => {
 
         const task = await Task.create({...body, userId});
 
-        return res.status(201).send({data: task});
+        return res.status(201).send({data: task,
+                                        authorId: userId
+        });
     } catch (error) {
         next(error);
     }
