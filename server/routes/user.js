@@ -6,5 +6,6 @@ const userRouter = Router();
 
 userRouter.post('/sign-up', hashPass, UserController.registatrionUser); // register
 userRouter.post('/sign-in', UserController.loginUser); // login
+userRouter.get('/:token', UserController.checkToken);
 
 module.exports = userRouter;
