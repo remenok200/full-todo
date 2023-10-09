@@ -18,7 +18,7 @@ module.exports.createUserTask = async (req, res, next) => {
     try {
         const { body, tokenPayload: {userId} } = req;
 
-        const task = await Task.create({...body, userId});
+        const task = await Task.create({...body, authorId: userId}); // NEED ATTENTION!
 
         return res.status(201).send({data: task,
                                         authorId: userId
