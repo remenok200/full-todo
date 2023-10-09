@@ -1,4 +1,5 @@
-import CONSTANTS from "../constants"
+import CONSTANTS from "../constants";
+import history from '../BrowserHistory';
 
 export const registerUser = async (data) => {
     const response = await fetch(`${CONSTANTS.API_BASE}/users/sign-up`, {
@@ -42,6 +43,7 @@ export const authUser = async (token) => {
 
     if(res.status === 403) {
         const error = await res.json();
+        history.push('/');
         return Promise.reject(error);
     }
 
