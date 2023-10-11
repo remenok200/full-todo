@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import TodoList from '../components/TodoList';
-import { getTasks, createTask } from '../api/taskApi';
+import { getTasks, createTask, deleteTask } from '../api/taskApi';
 import { useNavigate } from 'react-router-dom';
 import TodoForm from '../components/TodoForm';
 
@@ -32,11 +32,22 @@ const TodoPage = (props) => {
         })
     }
 
+    const delTask = (id) => {
+        deleteTask(id)
+        .then(({data: deletedTask}) => {
+            const updatedTask = todos.filter(td => td._id !== deletedTask._id);
+            setTodos(updatedTask);
+        })
+        .catch(error => {
+            console.error(error);
+        })
+    }
+
     return (
         <div>
             <h1>Todo List</h1>
             <TodoForm sendData={getNewTd} />
-            <TodoList todos={todos} />
+            <TodoList todos={todos} delCallback={delTask} />
         </div>
     );
 }

@@ -54,7 +54,6 @@ export const refreshSession = async () => {
     }
 
     const { tokens } = await res.json();
-    console.log(tokens);
     // new tokens pair -> localStorage
     localStorage.setItem('accessToken', tokens.accessToken);
     localStorage.setItem('refreshToken', tokens.refreshToken);
