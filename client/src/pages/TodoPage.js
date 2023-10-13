@@ -1,17 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import TodoList from '../components/TodoList';
-import { getTasks, createTask, deleteTask } from '../api/taskApi';
+// import { getTasks, createTask, deleteTask } from '../api/taskApi';
 import { useNavigate } from 'react-router-dom';
 import TodoForm from '../components/TodoForm';
+import { getTask, createTask, deleteTask } from '../api/axiosApi';
 
 const TodoPage = (props) => {
     const [todos, setTodos] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-            getTasks()
-            .then(result => {
-                setTodos(result.data);
+            getTask()
+            .then(({data: {data}}) => {
+                setTodos(data);
             })
             .catch(error => {
                 console.error(error);
@@ -23,7 +24,7 @@ const TodoPage = (props) => {
             status: 'new',
             ...data
         })
-        .then(({data: createdTask}) => {
+        .then(({data: {data: createdTask} }) => {
             const newTodo = [...todos, createdTask];
             setTodos(newTodo);
         })
@@ -34,7 +35,7 @@ const TodoPage = (props) => {
 
     const delTask = (id) => {
         deleteTask(id)
-        .then(({data: deletedTask}) => {
+        .then(({data: {data: deletedTask} }) => {
             const updatedTask = todos.filter(td => td._id !== deletedTask._id);
             setTodos(updatedTask);
         })

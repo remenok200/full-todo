@@ -11,16 +11,15 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-        if(!user) {
-                authUser()
-                .then(userData => {
-                  setUser(userData.data)
-                })
-                .catch(error => {
-                    history.push('/');
-                })
-            }
-        
+        // if(!user) {
+        //         authUser()
+        //         .then(userData => {
+        //           setUser(userData.data)
+        //         })
+        //         .catch(error => {
+        //             history.push('/');
+        //         })
+        //     }
     }, []);
 
   return (
