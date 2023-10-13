@@ -33,10 +33,12 @@ instance.interceptors.response.use((response) => {
         localStorage.setItem('refreshToken', tokens.refreshToken);
     }
     return response;
-}, (err) => {
+}, async (err) => {
     if(err.response.status === 403 && localStorage.getItem('refreshToken')) {
-        refreshUser();
-        // TODO: Викликати заново функцію, на якій сталася помилка
+        await refreshUser();
+        
+        // Викликати заново функцію, на якій сталася помилка, після отримання токену
+        return await instance(err.config);
     }
     if(err.response.status === 401) {
         history.replace('/');
