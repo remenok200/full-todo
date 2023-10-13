@@ -155,3 +155,23 @@ const it4 = fetchUrl('https://randomuser.me/api/');
 it4.next().value
 .then(response => it4.next(response).value)
 .then(data => console.log(data));
+
+
+// Задача 1: написати функцію-генератор, яка генерує числа від 0 до 100
+// З кожним викликом число інкрементується на одиниицю
+
+// Задача 2: за допомогою написаного генератора - скласти числа від 0 до 100
+
+function* numberGenerator() {
+    let number = 0;
+    while(number <= 100) {
+        yield number++;
+    }
+}
+
+let sum = 0;
+for (let number of numberGenerator()) {
+    sum += number;
+}
+
+console.log(sum);
