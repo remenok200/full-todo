@@ -1,49 +1,47 @@
-import React, { useReducer } from 'react';
+import React from 'react';
+import {connect} from 'react-redux';
 
-const reducer = (state, action) => {
-    switch(action.type) {
-        case 'COUNTER_PLUS': {
-            return {
-                counter: state.counter + 1
-            }
-        }
-        case 'COUNTER_MINUS': {
-            return {
-                counter: state.counter - 1
-            }
-        }
-        default: {
-            return state
-        }
-    }
-}
-
-const Counter = () => {
-    const [state, dispatch] = useReducer(reducer, {
-        counter: 0
-    });
+const Counter = (props) => {
 
     const increment = () => {
         const action = {
             type: 'COUNTER_PLUS'
         }
-        dispatch(action);
+        props.dispatch(action);
     }
 
     const decrement = () => {
         const action = {
             type: 'COUNTER_MINUS'
         }
-        dispatch(action);
+        props.dispatch(action);
     }
+
+    console.log(props);
 
     return (
         <>
-            <h1>{state.counter}</h1>
+            <h1>{props.counter}</h1>
             <button onClick={increment}>+</button>
             <button onClick={decrement}>-</button>
         </>
     );
 }
 
-export default Counter;
+const mapStateToProps = (state) => {
+    return state;
+}
+
+const WrappedCounter = connect(mapStateToProps)(Counter);
+
+export default WrappedCounter;
+
+/*
+
+connect - функція, яка приймає два аргументи (обидва опціональні) і підписує компоненту на оновлення стейту
+- mapStateToProps - функція, в яку буде приходити ВЕСЬ стейт і mapStateToProps повертатиме тільки ту частину стейту, яка потрібна цій компоненті
+- mapDispatchToProps
+
+Каріювання функцій - трансформація функцій, щоб вони приймали аргументи не як f(a, b, c), f(a)(b)(c)
+
+*/
