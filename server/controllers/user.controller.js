@@ -104,6 +104,8 @@ module.exports.refreshSession = async (req, res, next) => {
                 });
 
                 return res.status(200).send({tokens: {accessToken: newAccessToken, refreshToken: newRefreshToken}})
+            } else {
+                throw new RefreshTokenError('Token not found');
             }
         }
     } catch (error) {

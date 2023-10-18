@@ -3,54 +3,51 @@ import TodoList from '../components/TodoList';
 // import { getTasks, createTask, deleteTask } from '../api/taskApi';
 import { useNavigate } from 'react-router-dom';
 import TodoForm from '../components/TodoForm';
-import { getTask, createTask, deleteTask } from '../api/axiosApi';
+import { getTaskRequest, createTaskRequest, deleteTaskRequest, logOutRequest } from '../actions/actionCreator';
+import { connect } from 'react-redux';
 
 const TodoPage = (props) => {
     const [todos, setTodos] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-            getTask()
-            .then(({data: {data}}) => {
-                setTodos(data);
-            })
-            .catch(error => {
-                console.error(error);
-            })
-    }, []);
+        if(props.user) {
+            props.getTaskRequest();
+        }
+    }, [props.user]);
 
     const getNewTd = (data) => {
-        createTask({
+        props.createTaskRequest({
             status: 'new',
             ...data
-        })
-        .then(({data: {data: createdTask} }) => {
-            const newTodo = [...todos, createdTask];
-            setTodos(newTodo);
-        })
-        .catch(error => {
-            console.error(error);
         })
     }
 
     const delTask = (id) => {
-        deleteTask(id)
-        .then(({data: {data: deletedTask} }) => {
-            const updatedTask = todos.filter(td => td._id !== deletedTask._id);
-            setTodos(updatedTask);
-        })
-        .catch(error => {
-            console.error(error);
-        })
+        props.deleteTaskRequest(id);
+    }
+
+    const logOutHandler = () => {
+        props.logOutRequest();
     }
 
     return (
         <div>
+            <button onClick={logOutHandler}>LOG OUT</button>
             <h1>Todo List</h1>
             <TodoForm sendData={getNewTd} />
-            <TodoList todos={todos} delCallback={delTask} />
+            <TodoList todos={props.tasks} delCallback={delTask} />
         </div>
     );
 }
 
-export default TodoPage;
+const mapStateToProps = (state) => (state);
+
+const mapDispatchToProps = {
+    getTaskRequest,
+    createTaskRequest,
+    deleteTaskRequest,
+    logOutRequest
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoPage);

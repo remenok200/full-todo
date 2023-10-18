@@ -12,6 +12,12 @@ export const registerUser = async (userData) => await instance.post('/users/sign
 
 export const loginUser = async (userData) => await instance.post('/users/sign-in', userData);
 
+export const authUser = async () => await instance.get('/users/');
+
+export const logOut = async() => {
+    localStorage.clear(); // !!!!!!!!!
+}
+
 // INTERCEPTORS
 
 instance.interceptors.request.use((config) => {
@@ -39,9 +45,11 @@ instance.interceptors.response.use((response) => {
         
         // Викликати заново функцію, на якій сталася помилка, після отримання токену
         return await instance(err.config);
-    }
-    if(err.response.status === 401) {
+    } else if(err.response.status === 401) {
+        logOut();
         history.replace('/');
+    } else {
+        return Promise.reject(err);
     }
 
     return Promise.reject(err);
