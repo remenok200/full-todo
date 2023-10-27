@@ -1,9 +1,21 @@
 import axios from 'axios';
 import CONSTANTS from "../constants";
 import history from '../BrowserHistory';
+import io from 'socket.io-client';
+import store from '../store';
 
 const instance = axios.create({
-    baseURL: CONSTANTS.API_BASE
+    baseURL: `http://${CONSTANTS.API_BASE}`
+});
+
+const socket = io("ws://localhost:5000", { transports: ["websocket"] });
+
+socket.on(CONSTANTS.SOCKET_EVENT_NOTIFICATION, (data) => {
+    console.log(data);
+    store.dispatch({
+        type: 'NOTIFICATION',
+        data
+    })
 });
 
 // USER API
