@@ -6,6 +6,8 @@ import history from './BrowserHistory';
 import './App.css';
 import { connect } from 'react-redux';
 import { authUserRequest } from './actions/actionCreator';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App(props) {
   useEffect(() => {
@@ -14,8 +16,37 @@ function App(props) {
     }
   }, []);
 
+  useEffect(() => {
+    //const {notification: {notification}} = props;
+    if(props.notification) {
+      toast.info(props.notification.notification, {
+        position: "bottom-left",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+        });
+    }
+  }, [props.notification]);
+
   return (
     <HistoryRouter history={history}>
+
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/tasks/' element={<TodoPage />} />
@@ -24,7 +55,7 @@ function App(props) {
   );
 }
 
-const mapStateToProps = ({user}) => ({user});
+const mapStateToProps = ({user, notification}) => ({user, notification});
 
 const mapDispatchToProps = {
   authUserRequest
