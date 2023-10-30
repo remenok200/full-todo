@@ -8,7 +8,7 @@ const instance = axios.create({
     baseURL: `http://${CONSTANTS.API_BASE}`
 });
 
-const socket = io("ws://localhost:5000", { transports: ["websocket"] });
+const socket = io(`ws://${CONSTANTS.IPv4_ADDRESS}:5000`, { transports: ["websocket"] });
 
 socket.on(CONSTANTS.SOCKET_EVENT_NOTIFICATION, (data) => {
     console.log(data);

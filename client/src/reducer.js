@@ -15,23 +15,27 @@ const reducer = (state = initialState, action) => {
                     case ACTION_TYPES.REGISTER_USER_ERROR:
                         case ACTION_TYPES.GET_TASKS_ERROR:
                             case ACTION_TYPES.CREATE_TASK_ERROR:
-                                case ACTION_TYPES.DELETE_TASK_ERROR: {
-                                    const { error } = action;
-                                    return {
-                                        ...state,
-                                        error
+                                case ACTION_TYPES.DELETE_TASK_ERROR: 
+                                    case ACTION_TYPES.AUTH_QR_USER_ERROR: {
+                                        const { error } = action;
+                                        return {
+                                            ...state,
+                                            error
+                                        }
                                     }
-                                }
+
             case ACTION_TYPES.LOGIN_USER_SUCCESS:
                 case ACTION_TYPES.AUTH_USER_SUCCESS:
-                    case ACTION_TYPES.REGISTER_USER_SUCCESS: {
-                        const { data } = action;
-                        return {
-                            ...state,
-                            user: data,
-                            error: null
+                    case ACTION_TYPES.REGISTER_USER_SUCCESS:
+                        case ACTION_TYPES.AUTH_QR_USER_SUCCESS: {
+                            const { data } = action;
+                            return {
+                                ...state,
+                                user: data,
+                                error: null
+                            }
                         }
-                    }
+
             case ACTION_TYPES.GET_TASKS_SUCCESS: {
                 const { data } = action;
                 return {
@@ -40,6 +44,7 @@ const reducer = (state = initialState, action) => {
                     error: null
                 }
             }
+
             case ACTION_TYPES.CREATE_TASK_SUCCESS: {
                 const { data: newTask } = action;
                 return {
@@ -48,6 +53,7 @@ const reducer = (state = initialState, action) => {
                     error: null
                 }
             }
+
             case ACTION_TYPES.DELETE_TASK_SUCCESS: {
                 const { data: deletedTask } = action;
                 const tasks = state.tasks.filter(td => td._id !== deletedTask._id);
@@ -57,11 +63,13 @@ const reducer = (state = initialState, action) => {
                     error: null
                 }
             }
+
             case ACTION_TYPES.LOG_OUT_REQUEST: {
                 return {
                     ...initialState
                 }
             }
+
             case 'NOTIFICATION': {
                 const { data } = action;
                 return {
@@ -69,6 +77,14 @@ const reducer = (state = initialState, action) => {
                     notification: data
                 }
             }
+
+            case ACTION_TYPES.EMPTY_USER_OBJECT_REQUEST: {
+                return {
+                    ...state,
+                    user: {}
+                }
+            }
+
             default: {
                 return state;
             }

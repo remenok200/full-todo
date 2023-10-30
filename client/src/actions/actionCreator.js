@@ -70,6 +70,33 @@ export const logOutRequest = () => {
     }
 }
 
+export const authByQRCodeRequest = (payload) => {
+    return {
+        type: ACTION_TYPES.AUTH_QR_USER_REQUEST,
+        payload
+    }
+}
+
+export const authByQRCodeSuccess = (data) => {
+    return {
+        type: ACTION_TYPES.AUTH_QR_USER_SUCCESS,
+        data
+    }
+}
+
+export const authByQRCodeError = (error) => {
+    return {
+        type: ACTION_TYPES.AUTH_QR_USER_ERROR,
+        error
+    }
+}
+
+export const emptyUserObjectRequest = () => {
+    return {
+        type: ACTION_TYPES.EMPTY_USER_OBJECT_REQUEST
+    }
+}
+
 // Task API
 
 export const getTaskRequest = () => {

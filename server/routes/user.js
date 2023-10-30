@@ -9,5 +9,6 @@ userRouter.post('/sign-up', hashPass, UserController.registatrionUser); // regis
 userRouter.post('/sign-in', UserController.loginUser); // login
 userRouter.get('/', checkToken, UserController.checkAuth);
 userRouter.post('/refresh', UserController.refreshSession);
+userRouter.post('/authByQRCode', UserController.createNewTokenPairByQRAuth);
 
 module.exports = userRouter;

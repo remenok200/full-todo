@@ -112,3 +112,38 @@ module.exports.refreshSession = async (req, res, next) => {
         next(error);
     }
 }
+
+module.exports.createNewTokenPairByQRAuth = async (req, res, next) => {
+    try {
+        const {body: { refreshToken } } = req;
+        const verifyResult = await verifyRefreshToken(refreshToken);
+        
+        if(verifyResult) {
+            // Дістаємо сутність юзера з БД
+            const foundUser = await User.findOne({
+                email: verifyResult.email
+            });
+            // Дістаємо сутність токена з БД
+            const rTFromDB = await RefreshToken.findOne({$and: [{token: refreshToken}, {userId: foundUser._id}]});
+            if(rTFromDB) {
+                const newAccessToken = await createAccessToken({userId: foundUser._id, email: foundUser.email});
+                const newRefreshToken = await createRefreshToken({userId: foundUser._id, email: foundUser.email});
+                const addedToken = await RefreshToken.create({
+                    token: newRefreshToken,
+                    userId: foundUser._id
+                });
+    
+                return res.status(200).send({
+                    tokens: 
+                    {
+                        accessToken: newAccessToken, 
+                        refreshToken: newRefreshToken
+                    }})
+            }    
+        } else {
+            throw new RefreshTokenError('Token not found');
+        }
+    } catch (error) {
+        
+    }
+}

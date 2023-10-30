@@ -18,7 +18,7 @@ io.on('connect', (socket) => {
     // задача, кожні 5 секунд відправляти push-повідомлення на клієнт
     setInterval(() => {
         io.emit('NEW_NOTIFICATION', {notification: 'Something new happened'});
-    }, 20000);
+    }, 100000);
 
     socket.on('disconnect', (reason) => {
         console.log(reason);

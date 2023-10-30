@@ -8,12 +8,15 @@ import { connect } from 'react-redux';
 import { authUserRequest } from './actions/actionCreator';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AuthByQRCode from './pages/AuthByQRCode';
 
 function App(props) {
   useEffect(() => {
-    if(!props.user) {
-      props.authUserRequest();
-    }
+    setTimeout(() => {
+      if(!props.user) {
+        props.authUserRequest();
+      }
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -50,6 +53,7 @@ function App(props) {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/tasks/' element={<TodoPage />} />
+        <Route path='/authByQR/' element={<AuthByQRCode />} />
       </Routes>
     </HistoryRouter>
   );
