@@ -37,6 +37,12 @@ describe('create new user', () => {
         expect(response.statusCode).toBe(201); // умова 1
         expect(bodySchema.isValidSync(response.body)).toBe(true); // умова 2
     });
+
+    test('create empty user expect 400 bad request', async  () => {
+        const response = await appRequest.post('/api/users/sign-up').send();
+        expect(response.statusCode).toBe(400); // умова 1
+        expect(bodySchema.isValidSync(response.body)).toBe(false); // умова 2
+    });
 });
 
 afterAll(async () => {
