@@ -1,4 +1,5 @@
 const { Task } = require('../models');
+const { SOCKET_REFRESH_TASK_LIST } = require('../configs/constants');
 
 module.exports.getAllUserTasks = async (req, res, next) => {
     try {
@@ -19,6 +20,9 @@ module.exports.createUserTask = async (req, res, next) => {
         const { body, tokenPayload: {userId} } = req;
 
         const task = await Task.create({...body, authorId: userId}); // NEED ATTENTION!
+        
+        const io = req.app.get('io');
+        io.emit(SOCKET_REFRESH_TASK_LIST);
 
         return res.status(201).send({data: task,
                                         authorId: userId
@@ -33,6 +37,9 @@ module.exports.deleteTask = async (req, res, next) => {
         const {params: {taskId}, tokenPayload: {userId} } = req;
         const deletedTask = await Task.findOneAndRemove({authorId: userId, _id: taskId});
         if(deletedTask) {
+            const io = req.app.get('io');
+            io.emit(SOCKET_REFRESH_TASK_LIST);
+
             return res.status(200).send({data: deletedTask});
         } else {
             return res.status(404).send({error: 'Task not found'});

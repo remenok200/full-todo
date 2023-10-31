@@ -3,6 +3,7 @@ import CONSTANTS from "../constants";
 import history from '../BrowserHistory';
 import io from 'socket.io-client';
 import store from '../store';
+import { getTaskRequest } from '../actions/actionCreator';
 
 const instance = axios.create({
     baseURL: `http://${CONSTANTS.API_BASE}`
@@ -17,6 +18,10 @@ socket.on(CONSTANTS.SOCKET_EVENT_NOTIFICATION, (data) => {
         data
     })
 });
+
+socket.on(CONSTANTS.SOCKET_REFRESH_TASK_LIST, (data) => {
+    store.dispatch(getTaskRequest());
+})
 
 // USER API
 

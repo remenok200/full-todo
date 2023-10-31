@@ -46,20 +46,17 @@ const reducer = (state = initialState, action) => {
             }
 
             case ACTION_TYPES.CREATE_TASK_SUCCESS: {
-                const { data: newTask } = action;
+                const { data } = action;
                 return {
                     ...state,
-                    tasks: [...state.tasks, newTask],
                     error: null
                 }
             }
 
             case ACTION_TYPES.DELETE_TASK_SUCCESS: {
-                const { data: deletedTask } = action;
-                const tasks = state.tasks.filter(td => td._id !== deletedTask._id);
+                const { data } = action;
                 return {
                     ...state,
-                    tasks,
                     error: null
                 }
             }
