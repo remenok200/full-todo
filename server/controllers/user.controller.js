@@ -13,6 +13,11 @@ module.exports.registatrionUser = async (req, res, next) => {
         const accessToken = await createAccessToken({userId: createdUser._id, email: createdUser.email});
         const refreshToken = await createRefreshToken({userId: createdUser._id, email: createdUser.email});
 
+        const addedToken = await RefreshToken.create({
+            token: refreshToken,
+            userId: createdUser._id
+        })
+
         return res.status(201).send({data: createdUser, tokens: { accessToken, refreshToken }});
     } catch (error) {
         next(error);
