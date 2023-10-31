@@ -13,7 +13,7 @@ const initSocket = (httpServer) => {
         // задача, кожні 5 секунд відправляти push-повідомлення на клієнт
         setInterval(() => {
             io.emit('NEW_NOTIFICATION', {notification: 'Something new happened'});
-        }, 100000);
+        }, 1000000);
     
         socket.on('disconnect', (reason) => {
             console.log(reason);

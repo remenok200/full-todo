@@ -8,8 +8,20 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    console.log(action);
     switch (action.type) {
+        case ACTION_TYPES.REGISTER_USER_REQUEST:
+            case ACTION_TYPES.AUTH_QR_USER_REQUEST:
+                case ACTION_TYPES.GET_TASKS_REQUEST:
+                    case ACTION_TYPES.AUTH_USER_REQUEST:
+                        case ACTION_TYPES.LOGIN_USER_REQUEST:
+                            case ACTION_TYPES.CREATE_TASK_REQUEST:
+                                case ACTION_TYPES.DELETE_TASK_REQUEST: {
+                                    return {
+                                        ...state,
+                                        isFetching: true
+                                    }
+                                }
+
         case ACTION_TYPES.AUTH_USER_ERROR:    
             case ACTION_TYPES.LOGIN_USER_ERROR:
                     case ACTION_TYPES.REGISTER_USER_ERROR:
@@ -20,7 +32,8 @@ const reducer = (state = initialState, action) => {
                                         const { error } = action;
                                         return {
                                             ...state,
-                                            error
+                                            error,
+                                            isFetching: false
                                         }
                                     }
 
@@ -32,7 +45,8 @@ const reducer = (state = initialState, action) => {
                             return {
                                 ...state,
                                 user: data,
-                                error: null
+                                error: null,
+                                isFetching: false
                             }
                         }
 
@@ -41,7 +55,8 @@ const reducer = (state = initialState, action) => {
                 return {
                     ...state,
                     tasks: data,
-                    error: null
+                    error: null,
+                    isFetching: false
                 }
             }
 
@@ -49,7 +64,8 @@ const reducer = (state = initialState, action) => {
                 const { data } = action;
                 return {
                     ...state,
-                    error: null
+                    error: null,
+                    isFetching: false
                 }
             }
 
@@ -57,7 +73,8 @@ const reducer = (state = initialState, action) => {
                 const { data } = action;
                 return {
                     ...state,
-                    error: null
+                    error: null,
+                    isFetching: false
                 }
             }
 
